@@ -1,10 +1,31 @@
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 const SOLUTIONS = [
   { k: "01", t: "AI Assistants", d: "Trained agents that answer questions, qualify leads, and book meetings — 24/7." },
   { k: "02", t: "Websites & E-commerce", d: "Fast, clear sites that explain what you do and make it easy to buy or get in touch." },
   { k: "03", t: "Automation", d: "Follow-ups, reports, internal flows — handled in the background, every day." },
 ];
+
+function SplitChars({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  return (
+    <span ref={ref} className={`inline-block ${className}`} aria-label={text}>
+      {text.split("").map((ch, i) => (
+        <motion.span
+          key={i}
+          className="inline-block"
+          initial={{ y: "110%", opacity: 0 }}
+          animate={inView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: delay + i * 0.025, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {ch === " " ? "\u00A0" : ch}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
 
 export function Manifesto() {
   return (
@@ -18,18 +39,14 @@ export function Manifesto() {
           className="mb-12 flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.3em] text-copper"
         >
           <span className="block h-px w-12 bg-copper" />
-          <span>Solutions</span>
+          <span>What We Build</span>
         </motion.div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-3xl font-display text-4xl leading-[1.05] text-cream md:text-6xl"
-        >
-          Three things we do <span className="italic copper-text">very well.</span>
-        </motion.h2>
+        <h2 className="font-display text-5xl leading-[0.95] text-cream md:text-7xl">
+          <SplitChars text="Five ways we" /><br />
+          <SplitChars text="deliver" className="italic copper-text" delay={0.05} />{" "}
+          <SplitChars text="intelligence." delay={0.1} />
+        </h2>
 
         <div className="mt-20 grid gap-10 md:grid-cols-3">
           {SOLUTIONS.map((c, i) => (
