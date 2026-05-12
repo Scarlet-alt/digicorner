@@ -84,11 +84,6 @@ export function Finale() {
           </motion.div>
         </div>
 
-        <footer className="mt-24 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          <span>© {new Date().getFullYear()} DigiCorner</span>
-          <span>Remote · Morocco</span>
-          <span>Built to last</span>
-        </footer>
       </div>
     </section>
   );
